@@ -89,5 +89,12 @@ header {
 @media (min-width: 700px) {
   .container{
       flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+  }
+  .card{
+    flex-grow: 1;
+    width: 40vw; 
   }
 }
