@@ -14,6 +14,7 @@
     <header>
         Start Registration
     </header>
+    <div id="notification-container"></div>
     <div class="toggle-theme"><label for="theme" class="theme">
             <span class="theme__toggle-wrap">
                 <input id="theme" class="theme__toggle" type="checkbox" role="switch" name="theme" value="dark">
@@ -73,6 +74,8 @@
             </section>
             <% } %>
                 <script src="/js/helper.js"></script>
+                <!-- websocket io -->
+                <script src="/js/socket.js"></script>
                 <!-- Script for QR Code Generation and Clipboard Functionality -->
                 <script src="/js/qrcode.min.js"></script>
                 <script src="/js/utils.js"></script>

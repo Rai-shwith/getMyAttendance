@@ -11,13 +11,19 @@ const { getAttendanceState } = require('./states/attendanceState');
 const { getRegistrationState } = require('./states/registerState');
 const { getDomain, getBaseURL } = require('./states/general');
 const FileStore = require('session-file-store')(session);
+const cors = require('cors');
 
+const http = require("http");
+const { initSocket } = require('./utils/socketHelper');
 
 const PORT = server.port;
 // Get the Domain (Ip address)
 const DOMAIN = server.domain || getDomain();
 
 const app = express();
+const appServer = http.createServer(app); // Create HTTP appServer
+// Initialize Socket.IO
+initSocket(appServer);
 
 // Middleware setup
 app.use(express.json());
@@ -28,6 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 // Cookie Parser middleware
 app.use(cookieParser(auth.secretKey));
 
+app.use(cors()); 
 // Session middleware
 app.use(session({
     secret: auth.secretKey,      // Secret key for signing the cookie
@@ -83,6 +90,6 @@ app.use((err, req, res, next) => {
 });
 
 
-app.listen(PORT, '0.0.0.0', () => {
+appServer.listen(PORT, '0.0.0.0', () => {
     logger.info(`Server running on `+getBaseURL());
 });

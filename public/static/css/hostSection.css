@@ -106,11 +106,6 @@ footer {
     width: fit-content;
 }
 
-@media (max-width: 600px) {
-    .container {
-        width: 90%;
-    }
-}
 
 /* Modal Overlay */
 .modal-overlay {
@@ -167,6 +162,60 @@ footer {
     background-color: #3700b3;
 }
 
+
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    z-index: 1000;
+  }
+  
+.success{
+    background-color: #4caf50;
+}
+
+.error{
+    background-color: #db6b63;
+}
+  .notification {
+    color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: slide-in 0.3s ease, slide-out 0.4s ease 3.3s forwards;
+  }
+  
+  @keyframes slide-in {
+    0% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    90%{
+        opacity: 1;
+        transform: translateX(-10%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slide-out {
+    0% {
+      transform: translateX(0);
+    }
+    60%{
+        opacity: 1;
+        transform: translateX(-10%);
+    }
+    100% {
+        opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+
 /* Fade-In Animation */
 @keyframes fadeIn {
     from {
@@ -177,5 +226,11 @@ footer {
     to {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
     }
 }
