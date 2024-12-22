@@ -100,7 +100,9 @@ exports.getRegistrationPage = (req, res) => {
 //  Router to register Student
 exports.registerStudent = (req, res) => {
     const registerID = req.session.registerID;
-    const { name, usn } = req.body;
+    let { name, usn } = req.body;
+    name = name.replaceAll('\n','').trim();
+    usn = usn.replaceAll('\n','').trim();
     logger.info(`POST /register ${name} : ${usn}`);
     try {
         handleRegistration(registerID, name, usn, req)
