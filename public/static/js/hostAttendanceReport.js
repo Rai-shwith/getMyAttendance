@@ -1,25 +1,40 @@
-function getQueryParam(param) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
+function interceptBackNavigationAndRedirectToHome() {
+    const redirectUrl = '/host'; // Set the redirect URL to home
+
+    // Replace the current state with a new one (this clears the previous page)
+    history.replaceState(null, "", location.href);
+    
+    // Push a new state to prevent users from navigating back
+    history.pushState(null, "", location.href);
+
+    // Listen for popstate event to handle back navigation
+    window.onpopstate = function(event) {
+        // Redirect to home when back navigation is detected
+        window.location.href = redirectUrl;
+    };
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    interceptBackNavigationAndRedirectToHome();
+});
 
 async function downloadReport(type) {
     const timestamp = getQueryParam('timestamp');
-    if (!timestamp){
+    if (!timestamp) {
         return alert("Don't directly visit /reports/attendance");
     }
-    const [extension,applicationType] = (type=='pdf')?[type,'application/pdf']:['xlsx','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+    const [extension, applicationType] = (type == 'pdf') ? [type, 'application/pdf'] : ['xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
     try {
-        const response = await fetch('/host/download-'+type, {
+        const response = await fetch('/host/download-' + type, {
             method: 'POST',
             headers: {
-              'Accept': applicationType, 
-              'Content-Type': 'application/json', 
+                'Accept': applicationType,
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              timestamp, // Ensure the body is a JSON string.
+                timestamp, // Ensure the body is a JSON string.
             }),
-          });
+        });
 
         if (!response.ok) {
             throw new Error('Failed to fetch the PDF file');
@@ -27,7 +42,7 @@ async function downloadReport(type) {
 
         // Extract the filename from the Content-Disposition header
         const contentDisposition = response.headers.get('Content-Disposition');
-        let filename = 'download.'+extension; // Fallback filename
+        let filename = 'download.' + extension; // Fallback filename
 
         if (contentDisposition) {
             const match = contentDisposition.match(/filename="(.+?)"/);
@@ -111,7 +126,7 @@ document.getElementById('edit-attendance').addEventListener('click', () => {
             // Update cell content and dataset
             cell.textContent = newStatus;
             cell.setAttribute('data-status', newStatus);
-            console.log("Status set to "+newStatus);
+            console.log("Status set to " + newStatus);
             // Update row class
             cell.parentElement.classList.remove('row-present', 'row-absent');
             cell.parentElement.classList.add(statusStyle);
