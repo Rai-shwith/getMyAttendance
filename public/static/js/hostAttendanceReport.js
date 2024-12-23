@@ -1,22 +1,7 @@
-function interceptBackNavigationAndRedirectToHome() {
-    const redirectUrl = '/host'; // Set the redirect URL to home
-
-    // Replace the current state with a new one (this clears the previous page)
-    history.replaceState(null, "", location.href);
-    
-    // Push a new state to prevent users from navigating back
-    history.pushState(null, "", location.href);
-
-    // Listen for popstate event to handle back navigation
-    window.onpopstate = function(event) {
-        // Redirect to home when back navigation is detected
-        window.location.href = redirectUrl;
-    };
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
 }
-
-document.addEventListener("DOMContentLoaded", function() {
-    interceptBackNavigationAndRedirectToHome();
-});
 
 async function downloadReport(type) {
     const timestamp = getQueryParam('timestamp');
