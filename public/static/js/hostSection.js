@@ -1,7 +1,7 @@
 
 // QR Code generation
 const qrcode = new QRCode(document.getElementById("qrcode"), {
-  text: document.getElementById("attendanceLink").dataset.link,
+  text: document.getElementById("copyLink").dataset.link,
   width: 128,
   height: 128,
   colorDark: "#6200ea", // QR code color
@@ -9,9 +9,9 @@ const qrcode = new QRCode(document.getElementById("qrcode"), {
   correctLevel: QRCode.CorrectLevel.H,
 });
 
-const linkField = document.getElementById("attendanceLink");
+const linkField = document.getElementById("copyLink");
 // Copy link to clipboard
-document.getElementById("copyLink").addEventListener("click", () => {
+document.getElementById("copyLinkBtn").addEventListener("click", () => {
   if (navigator && navigator.clipboard) {
     // Use the modern clipboard API
     navigator.clipboard.writeText(linkField.dataset.link)
